@@ -9,21 +9,45 @@ public void setup()
 public void draw() 
 {
   //your code here
+  background(0);
   ship.show();
+  ship.move();
+}
+public void keyPressed() {
+  if (key == CODED) {
+    if (keyCode == RIGHT) {
+      ship.setPointDirection((int)ship.myPointDirection + 10);
+    } 
+    else if (keyCode == LEFT) {
+      ship.setPointDirection((int)ship.myPointDirection - 10);
+    } 
+    else if (keyCode == UP) {
+      ship.accelerate(1);
+    }
+    else if (keyCode == DOWN) {
+      ship.accelerate(-1);
+    }
+  } 
+  if (key == ' ') {
+      ship.setX((int)(Math.random()*501));
+      ship.setY((int)(Math.random()*501));
+  }
 }
 class SpaceShip extends Floater  
 {   
     //your code here
     public SpaceShip() {
-      corners = 3;
+      corners = 4;
       xCorners = new int[corners];
       yCorners = new int[corners];
-      xCorners[0] = -20;
+      xCorners[0] = -15;
       yCorners[0] = 10;
-      xCorners[1] = -20;
-      yCorners[1] = -10;
-      xCorners[2] = 20;
-      yCorners[2] = 0;
+      xCorners[1] = -8;
+      yCorners[1] = 0;
+      xCorners[2] = -15;
+      yCorners[2] = -10;
+      xCorners[3] = 15;
+      yCorners[3] = 0;
       myColor = color(255);
       myCenterX = 250;
       myCenterY = 250;
@@ -42,6 +66,18 @@ class SpaceShip extends Floater
     public void setPointDirection(int degrees) {myPointDirection = degrees;}
     public double getPointDirection() {return myPointDirection;}
 }
+class Star 
+{
+  private int myX, myY;
+  Star() {
+    myX =(int)(Math.random()*501);
+    myY = (int)(Math.random()*501);
+  }
+  public void show() {
+    fill(255);
+    ellipse(myX, myY, 5, 5);
+  }
+} 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
