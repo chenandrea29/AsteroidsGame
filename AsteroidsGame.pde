@@ -1,10 +1,14 @@
 //your variable declarations here
 SpaceShip ship;
+Star[] stars = new Star[200];
 public void setup() 
 {
   //your code here
   size(500, 500);
   ship = new SpaceShip();
+  for (int i = 0; i < stars.length; i++) {
+    stars[i] = new Star();
+  }
 }
 public void draw() 
 {
@@ -12,6 +16,9 @@ public void draw()
   background(0);
   ship.show();
   ship.move();
+  for (int i = 0; i < stars.length; i++) {
+    stars[i].show();
+  }
 }
 public void keyPressed() {
   if (key == CODED) {
@@ -70,12 +77,12 @@ class Star
 {
   private int myX, myY;
   Star() {
-    myX =(int)(Math.random()*501);
+    myX = (int)(Math.random()*501);
     myY = (int)(Math.random()*501);
   }
   public void show() {
     fill(255);
-    ellipse(myX, myY, 5, 5);
+    ellipse(myX, myY, 3, 3);
   }
 } 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
