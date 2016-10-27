@@ -25,13 +25,13 @@ public void keyPressed() {
     if (keyCode == RIGHT) {
       ship.setPointDirection((int)ship.myPointDirection + 10);
     } 
-    else if (keyCode == LEFT) {
+    if (keyCode == LEFT) {
       ship.setPointDirection((int)ship.myPointDirection - 10);
     } 
-    else if (keyCode == UP) {
+    if (keyCode == UP) {
       ship.accelerate(1);
     }
-    else if (keyCode == DOWN) {
+    if (keyCode == DOWN) {
       ship.accelerate(-1);
     }
   } 
