@@ -1,5 +1,6 @@
 //your variable declarations here
 SpaceShip ship;
+
 Star[] stars = new Star[200];
 public void setup() 
 {
@@ -38,6 +39,8 @@ public void keyPressed() {
   if (key == 'h') {
       ship.setX((int)(Math.random()*501));
       ship.setY((int)(Math.random()*501));
+      ship.setDirectionX(0);
+      ship.setDirectionY(0);
       ship.setPointDirection((int)(Math.random()*360));
   }
 }
