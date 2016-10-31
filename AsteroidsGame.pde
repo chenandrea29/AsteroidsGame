@@ -1,5 +1,9 @@
 //your variable declarations here
 SpaceShip ship;
+boolean up = false;
+boolean down = false;
+boolean left = false;
+boolean right = false;
 
 Star[] stars = new Star[200];
 public void setup() 
@@ -21,19 +25,20 @@ public void draw()
     stars[i].show();
   }
 }
+
 public void keyPressed() {
   if (key == CODED) {
     if (keyCode == RIGHT) {
-      ship.setPointDirection((int)ship.myPointDirection + 10);
+      right = true;
     } 
     if (keyCode == LEFT) {
-      ship.setPointDirection((int)ship.myPointDirection - 10);
+      left = true;
     } 
     if (keyCode == UP) {
-      ship.accelerate(1);
+      up = true;
     }
     if (keyCode == DOWN) {
-      ship.accelerate(-1);
+      down = true;
     }
   } 
   if (key == 'h') {
@@ -43,7 +48,66 @@ public void keyPressed() {
       ship.setDirectionY(0);
       ship.setPointDirection((int)(Math.random()*360));
   }
+  if (up == true) {
+    ship.accelerate(1);
+  }
+  if (down == true) {
+    ship.accelerate(-1);
+  }
+  if (right == true) {
+    ship.setPointDirection((int)ship.myPointDirection + 10);
+  }
+  if (left == true) {
+    ship.setPointDirection((int)ship.myPointDirection - 10);
+  }
 }
+
+public void keyReleased() {
+   if (key == CODED) {
+    if (keyCode == RIGHT) {
+      right = false;
+    } 
+    if (keyCode == LEFT) {
+      left = false;
+    } 
+    if (keyCode == UP) {
+      up = false;
+    }
+    if (keyCode == DOWN) {
+      down = false;
+    }
+  }
+}
+
+class Asteroid extends Floater
+{
+  private int RotationSpeed;
+  public Asteroid() {
+      corners = 4;
+      xCorners = new int[corners];
+      yCorners = new int[corners];
+      xCorners[0] = -15;
+      yCorners[0] = 10;
+      xCorners[1] = -8;
+      yCorners[1] = 0;
+      xCorners[2] = -15;
+      yCorners[2] = -10;
+      xCorners[3] = 15;
+      yCorners[3] = 0;
+      myColor = color(255);
+      myCenterX = 250;
+      myCenterY = 250;
+      myDirectionX = 0;
+      myDirectionY = 0;
+      myPointDirection = 0;
+    RotationSpeed = (int)(Math.random()*11)-5;
+  }
+  public void move() {
+    super.move();
+    super.rotate(RotationSpeed);
+  }
+}
+
 class SpaceShip extends Floater  
 {   
     //your code here
@@ -77,6 +141,7 @@ class SpaceShip extends Floater
     public void setPointDirection(int degrees) {myPointDirection = degrees;}
     public double getPointDirection() {return myPointDirection;}
 }
+
 class Star 
 {
   private int myX, myY;
@@ -88,7 +153,8 @@ class Star
     fill(255);
     ellipse(myX, myY, 3, 3);
   }
-} 
+}
+
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
