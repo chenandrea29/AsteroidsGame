@@ -23,11 +23,13 @@ public void draw()
 {
   //your code here
   background(0);
+  noStroke();
   for (int i = 0; i < stars.length; i++) {
     stars[i].show();
   }
   ship.show();
   ship.move();
+  stroke(0);
   for (int i = 0; i < asteroids.length; i++) {
     asteroids[i].show();
     asteroids[i].move();
@@ -89,7 +91,7 @@ public void keyReleased() {
 
 class Asteroid extends Floater
 {
-  private int RotationSpeed;
+  private int myRotationSpeed;
   public Asteroid() {
     corners = 9;
     xCorners = new int[corners];
@@ -115,14 +117,23 @@ class Asteroid extends Floater
     myColor = color(127);
     myCenterX = (int)(Math.random()*500);
     myCenterY = (int)(Math.random()*500);
-    myDirectionX = (int)(Math.random()*7)-3;
-    myDirectionY = (int)(Math.random()*7)-3;
+    myDirectionX = (int)(Math.random()*5)-2;
+    if (myDirectionX == 0) {
+      myDirectionX = (int)(Math.random()*5)-2;
+    }
+    myDirectionY = (int)(Math.random()*5)-2;
+    if (myDirectionY == 0) {
+      myDirectionY = (int)(Math.random()*5)-2;
+    }
     myPointDirection = (int)(Math.random()*360);
     myColor = color(127);
-    RotationSpeed = (int)(Math.random()*11)-5;
+    myRotationSpeed = (int)(Math.random()*11)-5;
+    if (myRotationSpeed == 0) {
+      myRotationSpeed = (int)(Math.random()*11)-5;      
+    }
   }
   public void move() {
-    rotate(RotationSpeed);
+    rotate(myRotationSpeed);
     super.move();
   }
   public void setX(int x) {myCenterX = x;}
@@ -135,6 +146,8 @@ class Asteroid extends Floater
   public double getDirectionY() {return myDirectionY;}
   public void setPointDirection(int degrees) {myPointDirection = degrees;}
   public double getPointDirection() {return myPointDirection;}
+  public void setRotationSpeed(int rot) {myRotationSpeed = rot;}
+  public int getRotationSpeed() {return myRotationSpeed;}
 }
 
 class SpaceShip extends Floater  
@@ -157,7 +170,7 @@ class SpaceShip extends Floater
       myCenterY = 250;
       myDirectionX = 0;
       myDirectionY = 0;
-      myPointDirection = 0;
+      myPointDirection = 270;
     }
     public void setX(int x) {myCenterX = x;}
     public int getX() {return (int)myCenterX;}   
@@ -180,7 +193,6 @@ class Star
   }
   public void show() {
     fill(255);
-    noStroke();
     ellipse(myX, myY, 4, 4);
   }
 }
@@ -245,8 +257,7 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   }   
   public void show ()  //Draws the floater at the current position  
   {             
-    fill(myColor);   
-    stroke(myColor);    
+    fill(myColor);    
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;    
