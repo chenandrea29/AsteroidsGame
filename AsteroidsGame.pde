@@ -5,7 +5,8 @@ boolean down = false;
 boolean left = false;
 boolean right = false;
 Star[] stars = new Star[200];
-Asteroid[] asteroids = new Asteroid[15];
+double distance;
+ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 
 public void setup() 
 {
@@ -15,8 +16,8 @@ public void setup()
   for (int i = 0; i < stars.length; i++) {
     stars[i] = new Star();
   }
-  for (int i = 0; i < asteroids.length; i++) {
-    asteroids[i] = new Asteroid();
+  for (int i = 0; i < 15; i++) {
+    asteroids.add(new Asteroid());
   }
 }
 public void draw() 
@@ -30,9 +31,13 @@ public void draw()
   ship.show();
   ship.move();
   stroke(0);
-  for (int i = 0; i < asteroids.length; i++) {
-    asteroids[i].show();
-    asteroids[i].move();
+  for (int i = 0; i < asteroids.size(); i++) {
+    asteroids.get(i).show();
+    asteroids.get(i).move();
+    distance = dist(asteroids.get(i).getX(), asteroids.get(i).getY(), ship.getX(), ship.getY());
+    if (distance < 20) {
+      asteroids.remove(i);
+    }
   }
 }
 
