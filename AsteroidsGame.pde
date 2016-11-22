@@ -7,6 +7,7 @@ boolean right = false;
 Star[] stars = new Star[300];
 double distance;
 ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
+ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 
 public void setup() 
 {
@@ -39,6 +40,10 @@ public void draw()
     if (distance < 25) {
       asteroids.remove(i);
     }
+  }
+  for (Bullet bull : bullets) {
+    bull.show();
+    bull.move();
   }
 }
 
@@ -76,6 +81,9 @@ public void keyPressed() {
   if (left == true) {
     ship.setPointDirection((int)ship.myPointDirection - 10);
   }
+  if (key == ' ') {
+      bullets.add(new Bullet(ship));
+  }
 }
 
 public void keyReleased() {
@@ -93,6 +101,35 @@ public void keyReleased() {
       down = false;
     }
   }
+}
+
+class Bullet extends Floater {
+  public Bullet(SpaceShip theShip) {
+    myCenterX = theShip.getX();
+    myCenterY = theShip.getY();
+    double dRadians = theShip.getPointDirection()*(Math.PI/180);
+    myPointDirection = dRadians;
+    myDirectionX = 5 * Math.cos(dRadians) + theShip.getDirectionX();
+    myDirectionY = 5 * Math.sin(dRadians) + theShip.getDirectionY();
+  }
+  public void show() {
+    fill(20, 160, 137);
+    ellipse((int)myCenterX, (int)myCenterY, 7, 7);
+  }
+  public void move() {
+    myCenterX += myDirectionX;    
+    myCenterY += myDirectionY; 
+  }
+  public void setX(int x) {myCenterX = x;}
+  public int getX() {return (int)myCenterX;}   
+  public void setY(int y) {myCenterY = y;}   
+  public int getY() {return (int)myCenterY;}
+  public void setDirectionX(double x) {myDirectionX = x;}   
+  public double getDirectionX() {return myDirectionX;}
+  public void setDirectionY(double y) {myDirectionY = y;}
+  public double getDirectionY() {return myDirectionY;}
+  public void setPointDirection(int degrees) {myPointDirection = degrees;}
+  public double getPointDirection() {return myPointDirection;}
 }
 
 class Asteroid extends Floater
