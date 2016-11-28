@@ -5,7 +5,8 @@ boolean down = false;
 boolean left = false;
 boolean right = false;
 Star[] stars = new Star[300];
-double distance;
+double dist1;
+double dist2;
 ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 
@@ -33,17 +34,30 @@ public void draw()
   ship.show();
   ship.move();
   stroke(0);
-  for (int i = 0; i < asteroids.size(); i++) {
-    asteroids.get(i).show();
-    asteroids.get(i).move();
-    distance = dist(asteroids.get(i).getX(), asteroids.get(i).getY(), ship.getX(), ship.getY());
-    if (distance < 25) {
-      asteroids.remove(i);
+  for (Asteroid ast : asteroids) {
+    ast.show();
+    ast.move();
+    dist2 = dist(ast.getX(), ast.getY(), ship.getX(), ship.getY());
+      if (dist2 < 25) {
+        fill(0);
+        rect(0, 0, 700, 700);
+        textAlign(CENTER);
+        text("GAME OVER", 350, 350);      
     }
   }
   for (Bullet bull : bullets) {
     bull.show();
     bull.move();
+  }
+  for (int i = 0; i < asteroids.size(); i++) {
+    for (int j = 0; j < bullets.size(); j++) {
+      dist1 = dist(asteroids.get(i).getX(), asteroids.get(i).getY(), bullets.get(j).getX(), bullets.get(j).getY());
+      if (dist1 < 25) {
+        asteroids.remove(i);
+        bullets.remove(j);
+        break;
+      }
+    }
   }
 }
 
