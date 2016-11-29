@@ -9,6 +9,9 @@ double dist1;
 double dist2;
 ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
+boolean gameOver = false;
+int lives = 3;
+boolean hit = false;
 
 public void setup() 
 {
@@ -38,11 +41,8 @@ public void draw()
     ast.show();
     ast.move();
     dist2 = dist(ast.getX(), ast.getY(), ship.getX(), ship.getY());
-      if (dist2 < 25) {
-        fill(0);
-        rect(0, 0, 700, 700);
-        textAlign(CENTER);
-        text("GAME OVER", 350, 350);      
+    if (dist2 < 25) {
+      hit = true;
     }
   }
   for (Bullet bull : bullets) {
@@ -59,6 +59,23 @@ public void draw()
       }
     }
   }
+  fill(255);
+  text("Lives: " + lives, 50, 50);
+  if (hit == true) {
+    hit = false;
+    lives--;
+  }
+  if (lives == 0) {
+    gameOver = true;
+  }
+  if (gameOver == true) {
+    fill(0);
+    rect(0, 0, 700, 700);
+    textAlign(CENTER);
+    fill(255);
+    text("GAME OVER", 350, 350);
+  }
+  System.out.println(lives);
 }
 
 public void keyPressed() {
