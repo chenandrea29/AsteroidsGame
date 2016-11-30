@@ -10,8 +10,11 @@ double dist2;
 ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 boolean gameOver = false;
+boolean check = true;
+boolean win = false;
 int lives = 3;
-boolean hit = false;
+int score = 0;
+int countDown = 0;
 
 public void setup() 
 {
@@ -41,32 +44,43 @@ public void draw()
     ast.show();
     ast.move();
     dist2 = dist(ast.getX(), ast.getY(), ship.getX(), ship.getY());
-    if (dist2 < 25) {
-      hit = true;
+    if (dist2 < 25 && check == true) {
+      lives--;
+      check = false;
+      countDown = 120;
     }
   }
   for (Bullet bull : bullets) {
     bull.show();
     bull.move();
   }
-  for (int i = 0; i < asteroids.size(); i++) {
+   for (int i = 0; i < asteroids.size(); i++) {
     for (int j = 0; j < bullets.size(); j++) {
       dist1 = dist(asteroids.get(i).getX(), asteroids.get(i).getY(), bullets.get(j).getX(), bullets.get(j).getY());
       if (dist1 < 25) {
         asteroids.remove(i);
         bullets.remove(j);
+        score++;
         break;
       }
     }
   }
   fill(255);
+  textSize(30);
   text("Lives: " + lives, 50, 50);
-  if (hit == true) {
-    hit = false;
-    lives--;
+  text("Score: " + score, 50, 100);
+  if (countDown > 0) {
+    countDown--;
+    ship.setColor(color(255, 0, 0));
+  } else {
+    check = true;
+    ship.setColor(color(153, 255, 255));
   }
   if (lives == 0) {
     gameOver = true;
+  }
+  if (score == 20) {
+    win = true;
   }
   if (gameOver == true) {
     fill(0);
@@ -75,7 +89,13 @@ public void draw()
     fill(255);
     text("GAME OVER", 350, 350);
   }
-  System.out.println(lives);
+  if (win == true) {
+    fill(0);
+    rect(0, 0, 700, 700);
+    textAlign(CENTER);
+    fill(255);
+    text("YOU WIN!", 350, 350);
+  }
 }
 
 public void keyPressed() {
@@ -256,6 +276,8 @@ class SpaceShip extends Floater
     public double getDirectionY() {return myDirectionY;}
     public void setPointDirection(int degrees) {myPointDirection = degrees;}
     public double getPointDirection() {return myPointDirection;}
+    public void setColor(int c) {myColor = c;}
+    public int getColor() {return (int)myColor;}
 }
 
 class Star 
