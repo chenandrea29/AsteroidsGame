@@ -67,8 +67,8 @@ public void draw()
   }
   fill(255);
   textSize(30);
-  text("Lives: " + lives, 50, 50);
-  text("Score: " + score, 50, 100);
+  text("Lives: " + lives, 25, 50);
+  text("Score: " + score, 25, 100);
   if (countDown > 0) {
     countDown--;
     ship.setColor(color(255, 0, 0));
@@ -132,13 +132,13 @@ public void keyPressed() {
   if (left == true) {
     ship.setPointDirection((int)ship.myPointDirection - 10);
   }
-  if (key == ' ') {
+  if (key == ' ' && frameCount%3 == 0) {
       bullets.add(new Bullet(ship));
   }
 }
 
 public void keyReleased() {
-   if (key == CODED) {
+  if (key == CODED) {
     if (keyCode == RIGHT) {
       right = false;
     } 
@@ -151,6 +151,9 @@ public void keyReleased() {
     if (keyCode == DOWN) {
       down = false;
     }
+  }
+  if (key == ' ') {
+      bullets.add(new Bullet(ship));
   }
 }
 
